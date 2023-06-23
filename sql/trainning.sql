@@ -845,5 +845,20 @@ END as COUNT
 FROM books
 GROUP BY author_lname, author_fname;
 
+create table houses2(
+purchases_price INT NOT NULL, 
+sales_price INT NOT NULL);
+
+insert INTO houses(purchases_price, sales_price) values(100, 200);
+ALTER TABLE houses ADD CONSTRAINT positive_pprice CHECK (purchases_price >= 0);
+ALTER TABLE houses DROP constraint positive_pprice;
+INSERT INTO houses(purchases_price, sales_price) VALUES(100, 200);
+
+ALTER TABLE houses2 RENAME COLUMN purchases_price to purchase_price;
+
+
+
+
+DESC houses2;
 
 
