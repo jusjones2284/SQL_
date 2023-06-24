@@ -905,5 +905,58 @@ order_date, amount, customer_id)
 VALUES('2022-11-11', 78.99, 50);
 
 
+CREATE TABLE STUDENTS(
+id INT auto_increment primary key, 
+first_name varchar(50) DEFAULT 'no name');
+
+Create TABLE PAPERS(
+title varchar(50), 
+grade varchar(1),
+student_id INT,
+FOREIGN KEY(student_id) REFERENCES STUDENTS(id) ON DELETE CASCADE);
+
+INSERT INTO STUDENTS(first_name)VALUES('Caleb'), 
+('Samantha'), ('Raj'),('Carlos'),('Lisa');
+
+INSERT INTO PAPERS(student_id, title, grades) VALUES 
+(1, 'My First Book Report', 60),
+(1, 'My Second Book Report', 75),
+(2, 'Russian Lit Through The Ages', 94),
+(2, 'De Montaigne and The Art of The Essay', 98),
+(4, 'Borges and Magical Realism', 89);
+
+ALTER TABLE PAPERS
+CHANGE grade grades INT;
+
+DESC PAPERS;
+
+SELECT first_name, title,ifnull(grades, 0)  FROM STUDENTS
+LEFT JOIN PAPERS ON PAPERS.student_id = STUDENTS.id
+ORDER BY grades 
+;
+
+SELECT first_name, title,ifnull(grades, 0)  FROM STUDENTS
+JOIN PAPERS ON PAPERS.student_id = STUDENTS.id
+ORDER BY grades ;
+
+SELECT first_name,ifnull(title, 'MISSING') AS TITLE ,ifnull(grades, 0) AS GRADES  FROM STUDENTS
+LEFT JOIN PAPERS ON PAPERS.student_id = STUDENTS.ID
+ORDER BY grades;
+
+SELECT 
+    first_name,
+    IFNULL(AVG(grades), 0) AS average,
+    CASE
+        WHEN IFNULL(AVG(grades), 0) >= 75 THEN 'passing'
+        ELSE 'failing'
+    END AS passing_status
+FROM
+    students
+        LEFT JOIN
+    papers ON students.id = papers.student_id
+GROUP BY first_name
+ORDER BY average DESC;
+
+
 
 
